@@ -7,7 +7,6 @@ import SearchBar from "./components/SearchBar";
 import client from "./lib";
 
 export default function App() {
-  type SearchBarComponentProps = {};
   const [data, setData] = useState<any>();
 
   const fetchData = async (term: string) => {
