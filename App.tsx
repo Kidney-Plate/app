@@ -61,8 +61,8 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <View>
-        <View className="mt-14 mx-2">
+      <View className="mx-4">
+        <View className="mt-14">
           <SearchBar
             placeholder="Search for foods"
             value={search}

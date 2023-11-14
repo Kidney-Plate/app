@@ -62,7 +62,7 @@ export const lightColors: Colors = {
       primary: '#007aff',
       secondary: '#5856d6',
       grey: '#7d7d7d',
-      searchBg: '#dcdce1',
+      searchBg: '#EEEDEF',
       success: '#4cd964',
       error: '#ff3b30',
       warning: '#ffcc00',
