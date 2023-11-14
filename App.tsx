@@ -1,14 +1,22 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { FlatList, Text, View, StyleSheet, Keyboard, TextInput } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
+  Keyboard,
+  TextInput,
+} from "react-native";
 import "expo-dev-client";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import SearchBar from "./components/SearchBar";
 import client from "./lib";
-import "./global.css"
+import "./global.css";
+import { SearchBar } from "./components/SearchBar/SearchBar";
 
 export default function App() {
   const [data, setData] = useState<any>(null);
+  const [search, setSearch] = useState("");
 
   const fetchData = async (term: string) => {
     if (term.length > 2) {
@@ -28,11 +36,23 @@ export default function App() {
     }
   };
 
+  const updateSearch = (search: string) => {
+    setSearch(search);
+    fetchData(search);
+  };
+
   return (
     <SafeAreaProvider>
       <View className="bg-red">
         <View className="mt-14 mx-2">
-          <SearchBar onUpdate={fetchData} onCancel={() => setData(null)} />
+          <SearchBar
+            placeholder="Search for foods"
+            value={search}
+            onChangeText={updateSearch}
+            platform="ios"
+            returnKeyType="search"
+            showCancel={false}
+          />
         </View>
         {data && (
           // <FlatList
@@ -51,7 +71,7 @@ export default function App() {
             data={data.data.foods}
             onScrollBeginDrag={() => Keyboard.dismiss()}
             removeClippedSubviews={false}
-            contentContainerStyle={{ paddingBottom: 130}}
+            contentContainerStyle={{ paddingBottom: 130 }}
             renderItem={({ item }) => (
               <View className="p-4 border-b-[1px] border-b-gray-200 bg-white">
                 <Text style={styles.listItemText}>{item.description}</Text>
