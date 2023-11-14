@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   Text,
@@ -17,6 +17,24 @@ import { SearchBar } from "./components/SearchBar/SearchBar";
 export default function App() {
   const [data, setData] = useState<any>(null);
   const [search, setSearch] = useState("");
+
+  function capitalizeFirstLetter(words: string) {
+    // Check if the input string is already in all caps
+    if (words === words.toUpperCase()) {
+      // Convert all letters to lowercase
+      let lowercasedWords = words.toLowerCase();
+
+      // Capitalize the first letter of each word
+      let capitalizedWords = lowercasedWords.replace(/\b\w/g, function (char) {
+        return char.toUpperCase();
+      });
+
+      return capitalizedWords;
+    } else {
+      // Return the original string if it's not in all caps
+      return words;
+    }
+  }
 
   const fetchData = async (term: string) => {
     if (term.length > 2) {
@@ -43,7 +61,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <View className="bg-red">
+      <View>
         <View className="mt-14 mx-2">
           <SearchBar
             placeholder="Search for foods"
@@ -55,18 +73,6 @@ export default function App() {
           />
         </View>
         {data && (
-          // <FlatList
-          //   data={data.data.foods!}
-          //   removeClippedSubviews={false}
-          //   contentContainerStyle={{ paddingBottom: 120 }}
-          //   renderItem={({ item }) => (
-          //     <View className="p-3 border-b">
-          //       <Text className={"text-lg font-semibold text-gray-700"}>
-          //         {item.description}
-          //       </Text>
-          //     </View>
-          //   )}
-          // />
           <FlatList
             data={data.data.foods}
             onScrollBeginDrag={() => Keyboard.dismiss()}
@@ -74,7 +80,9 @@ export default function App() {
             contentContainerStyle={{ paddingBottom: 130 }}
             renderItem={({ item }) => (
               <View className="p-4 border-b-[1px] border-b-gray-200 bg-white">
-                <Text style={styles.listItemText}>{item.description}</Text>
+                <Text style={styles.listItemText}>
+                  {capitalizeFirstLetter(item.description)}
+                </Text>
               </View>
             )}
           />
