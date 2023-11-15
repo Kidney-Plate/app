@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Keyboard,
   TextInput,
+  Pressable,
 } from "react-native";
 import "expo-dev-client";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -61,8 +62,8 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <View className="mx-4">
-        <View className="mt-14">
+      <View className="">
+        <View className="mt-14 mx-2">
           <SearchBar
             placeholder="Search for foods"
             value={search}
@@ -79,11 +80,17 @@ export default function App() {
             removeClippedSubviews={false}
             contentContainerStyle={{ paddingBottom: 130 }}
             renderItem={({ item }) => (
-              <View className="p-4 border-b-[1px] border-b-gray-200 bg-white">
-                <Text style={styles.listItemText}>
-                  {capitalizeFirstLetter(item.description)}
-                </Text>
-              </View>
+              <>
+                <View className="ml-4 border-t-[0.75px] border-t-gray-200"></View>
+                <Pressable className="p-4 bg-white active:bg-[#D1D0D4]">
+                  <Text style={styles.listItemText}>
+                    {capitalizeFirstLetter(item.description)}
+                  </Text>
+                </Pressable>
+                {item == data.data.foods[data.data.foods.length - 1] && (
+                  <View className="ml-4 border-b-[0.75px] border-b-gray-200"></View>
+                )}
+              </>
             )}
           />
         )}
@@ -102,10 +109,8 @@ const styles = StyleSheet.create({
     paddingBottom: 120,
   },
   listItem: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#dcdcdc",
-    backgroundColor: "white", // Background color of each list item
+    paddingLeft: 4,
+    paddingRight: 4,
   },
   listItemText: {
     fontSize: 18,
