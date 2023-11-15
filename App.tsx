@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import {
   FlatList,
   Text,
@@ -14,10 +14,28 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import client from "./lib";
 import "./global.css";
 import { SearchBar } from "./components/SearchBar/SearchBar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet, {
+  BottomSheetView,
+  BottomSheetModalProvider,
+  BottomSheetModal,
+} from "@gorhom/bottom-sheet";
 
 export default function App() {
   const [data, setData] = useState<any>(null);
   const [search, setSearch] = useState("");
+  const [onFood, setOnFood] = useState(false);
+
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  bottomSheetRef.current?.present();
+
+  // variables
+  const snapPoints = ["25%", "48%", "75%"];
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   function capitalizeFirstLetter(words: string) {
     // Check if the input string is already in all caps
@@ -62,7 +80,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <View className="">
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <View className="mt-14 mx-2">
           <SearchBar
             placeholder="Search for foods"
@@ -73,7 +91,8 @@ export default function App() {
             showCancel={false}
           />
         </View>
-        {data && (
+
+        {!onFood && data && (
           <FlatList
             data={data.data.foods}
             onScrollBeginDrag={() => Keyboard.dismiss()}
@@ -82,7 +101,10 @@ export default function App() {
             renderItem={({ item }) => (
               <>
                 <View className="ml-4 border-t-[0.75px] border-t-gray-200"></View>
-                <Pressable className="p-4 bg-white active:bg-[#D1D0D4]">
+                <Pressable
+                  className="p-4 bg-white active:bg-[#D1D0D4]"
+                  onPress={() => setOnFood(true)}
+                >
                   <Text style={styles.listItemText}>
                     {capitalizeFirstLetter(item.description)}
                   </Text>
@@ -95,8 +117,25 @@ export default function App() {
           />
         )}
         <StatusBar style="auto" />
-      </View>
+        <BottomSheetModalProvider>
+          <View style={styles.container}>
+            <Text>afks</Text>
+            <BottomSheetModal
+              ref={bottomSheetRef}
+              index={1}
+              snapPoints={snapPoints}
+              onChange={handleSheetChanges}
+            >
+              <View style={{ flex: 1, backgroundColor: "gray" }}>
+                <Text>Awesome 🎉</Text>
+              </View>
+            </BottomSheetModal>
+          </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
+    // <GestureHandlerRootView style={{ flex: 1 }}>
+    // </GestureHandlerRootView>
   );
 }
 
@@ -104,6 +143,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white", // Background color of the whole screen
+    alignItems: "center",
+    justifyContent: "center",
   },
   listContainer: {
     paddingBottom: 120,
