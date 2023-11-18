@@ -15,18 +15,20 @@ import client from "./lib";
 import "./global.css";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import BottomSheet, {
-  BottomSheetView,
+import {
   BottomSheetModalProvider,
   BottomSheetModal,
 } from "@gorhom/bottom-sheet";
-import { components } from "./lib/v1";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function App() {
   const [data, setData] = useState<any>(null);
   const [search, setSearch] = useState("");
   const [onFood, setOnFood] = useState(false);
   const [selectedFood, setSelectedFood] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean | undefined>(undefined);
+  const [disabled, setDisabled] = useState(true);
+  const [date, setDate] = useState(new Date());
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -35,12 +37,15 @@ export default function App() {
 
   const onClickFood = useCallback((item: any) => {
     setOnFood(true);
+
     setSelectedFood(
       item.foodNutrients.filter(
         (nutrient: any) =>
           nutrient.nutrientName == "Protein" ||
           nutrient.nutrientName == "Energy" ||
-          nutrient.nutrientName == "Total lipid (fat)"
+          nutrient.nutrientName == "Total lipid (fat)" ||
+          nutrient.nutrientName == "Sugars, total including NLEA" ||
+          nutrient.nutrientName == "Sodium, Na"
       )
     );
 
@@ -68,6 +73,7 @@ export default function App() {
   const fetchData = async (term: string) => {
     if (term.length > 2) {
       try {
+        setLoading(true);
         const response = await client.POST("/v1/foods/search", {
           body: {
             query: term,
@@ -77,6 +83,8 @@ export default function App() {
         setData(response);
       } catch (error) {
         setData(error);
+      } finally {
+        setLoading(false);
       }
     } else {
       setData(null);
@@ -109,7 +117,7 @@ export default function App() {
               />
             </View>
 
-            {!onFood && data && (
+            {!loading && !onFood && data && (
               <FlatList
                 data={data.data.foods}
                 onScrollBeginDrag={() => Keyboard.dismiss()}
@@ -140,15 +148,52 @@ export default function App() {
               ref={bottomSheetRef}
               index={1}
               snapPoints={snapPoints}
-              onDismiss={() => setOnFood(false)}
+              onDismiss={() => {
+                setOnFood(false);
+                setDate(new Date());
+              }}
             >
-              <View className="p-8">
+              <View className="mt-10 mx-6">
                 {selectedFood.map((nutrient: any) => (
-                  <Text key={nutrient.id}>
+                  <Text key={nutrient.nutrientId}>
                     {nutrient.nutrientName}: {nutrient.value}
                     {nutrient.unitName}
                   </Text>
                 ))}
+                <View className="mt-10 flex flex-row justify-between">
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    maximumDate={new Date()}
+                    mode="date"
+                    is24Hour={true}
+                    onChange={(event, selectedTime) => {
+                      const currentData = selectedTime;
+                      setDate(currentData!);
+                    }}
+                    style={{ marginLeft: -10 }}
+                  />
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    maximumDate={new Date()}
+                    mode="time"
+                    is24Hour={true}
+                    onChange={(event, selectedTime) => {
+                      const currentData = selectedTime;
+                      setDate(currentData!);
+                    }}
+                    style={{ marginLeft: -10 }}
+                  />
+                </View>
+                <Pressable
+                  className="bg-[#7265E3] p-3 rounded mt-4 active:bg-[#554bab] active:scale-[.97] transition"
+                  onPress={() => console.log("Clicked!")}
+                >
+                  <Text className="text-white text-lg text-center font-bold">
+                    Add Food
+                  </Text>
+                </Pressable>
               </View>
             </BottomSheetModal>
           </View>
