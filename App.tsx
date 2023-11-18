@@ -20,19 +20,30 @@ import BottomSheet, {
   BottomSheetModalProvider,
   BottomSheetModal,
 } from "@gorhom/bottom-sheet";
+import { components } from "./lib/v1";
 
 export default function App() {
   const [data, setData] = useState<any>(null);
   const [search, setSearch] = useState("");
   const [onFood, setOnFood] = useState(false);
+  const [selectedFood, setSelectedFood] = useState<any>([]);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   // variables
   const snapPoints = useMemo(() => ["48%", "75%", "95%"], []);
 
-  const onClickFood = useCallback(() => {
+  const onClickFood = useCallback((item: any) => {
     setOnFood(true);
+    setSelectedFood(
+      item.foodNutrients.filter(
+        (nutrient: any) =>
+          nutrient.nutrientName == "Protein" ||
+          nutrient.nutrientName == "Energy" ||
+          nutrient.nutrientName == "Total lipid (fat)"
+      )
+    );
+
     bottomSheetRef.current?.present();
   }, []);
 
@@ -109,7 +120,7 @@ export default function App() {
                     <View className="ml-4 border-t-[0.75px] border-t-gray-200"></View>
                     <Pressable
                       className="p-4 bg-white active:bg-[#D1D0D4]"
-                      onPress={onClickFood}
+                      onPress={() => onClickFood(item)}
                     >
                       <Text style={styles.listItemText}>
                         {capitalizeFirstLetter(item.description)}
@@ -131,8 +142,13 @@ export default function App() {
               snapPoints={snapPoints}
               onDismiss={() => setOnFood(false)}
             >
-              <View>
-                <Text>Awesome 🎉</Text>
+              <View className="p-8">
+                {selectedFood.map((nutrient: any) => (
+                  <Text key={nutrient.id}>
+                    {nutrient.nutrientName}: {nutrient.value}
+                    {nutrient.unitName}
+                  </Text>
+                ))}
               </View>
             </BottomSheetModal>
           </View>
