@@ -127,7 +127,7 @@ export default function App() {
                   <>
                     <View className="ml-4 border-t-[0.75px] border-t-gray-200"></View>
                     <Pressable
-                      className="p-4 bg-white active:bg-[#D1D0D4]"
+                      className="p-4 bg-transparent active:bg-gray-200" // #00000016, #d1d5db
                       onPress={() => onClickFood(item)}
                     >
                       <Text style={styles.listItemText}>
