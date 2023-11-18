@@ -37,6 +37,13 @@ const defaultClearIcon = (theme: Theme) => ({
   color: theme?.colors?.platform?.ios?.grey,
 });
 
+const dimmedClearIcon = (theme: Theme) => ({
+  type: "ionicon",
+  name: "ios-close-circle",
+  size: 20,
+  color: "#303031",
+});
+
 type SearchBarState = {
   hasFocus: boolean;
   isEmpty: boolean;
@@ -200,7 +207,13 @@ export class SearchBarIOS extends Component<SearchBarIosProps, SearchBarState> {
             },
             inputContainerStyle,
           ])}
-          leftIcon={renderNode(Icon, searchIcon, this.props.dimmed ? dimmedSearchIcon(theme) : defaultSearchIcon(theme))}
+          leftIcon={renderNode(
+            Icon,
+            searchIcon,
+            this.props.dimmed
+              ? dimmedSearchIcon(theme)
+              : defaultSearchIcon(theme)
+          )}
           leftIconContainerStyle={StyleSheet.flatten([
             styles.leftIconContainerStyle,
             leftIconContainerStyle,
@@ -219,7 +232,9 @@ export class SearchBarIOS extends Component<SearchBarIosProps, SearchBarState> {
               )}
               {!isEmpty &&
                 renderNode(Icon, clearIcon, {
-                  ...defaultClearIcon(theme),
+                  ...(this.props.dimmed
+                    ? dimmedClearIcon(theme)
+                    : defaultClearIcon(theme)),
                   key: "cancel",
                   onPress: this.clear,
                 })}
