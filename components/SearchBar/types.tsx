@@ -31,6 +31,7 @@ export type SearchBarIosProps = SearchBarBaseProps & {
     buttonDisabledStyle?: StyleProp<ViewStyle>;
     buttonDisabledTextStyle?: StyleProp<ViewStyle>;
   };
+  dimmed?: boolean;
   cancelButtonTitle?: string;
   /**
    * Show cancel

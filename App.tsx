@@ -27,14 +27,13 @@ export default function App() {
   const [onFood, setOnFood] = useState(false);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  bottomSheetRef.current?.present();
 
   // variables
-  const snapPoints = ["25%", "48%", "75%"];
+  const snapPoints = useMemo(() => ["48%", "75%", "95%"], []);
 
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
+  const onClickFood = useCallback(() => {
+    setOnFood(true);
+    bottomSheetRef.current?.present();
   }, []);
 
   function capitalizeFirstLetter(words: string) {
@@ -81,52 +80,58 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <View className="mt-14 mx-2">
-          <SearchBar
-            placeholder="Search for foods"
-            value={search}
-            onChangeText={updateSearch}
-            platform="ios"
-            returnKeyType="search"
-            showCancel={false}
-          />
-        </View>
-
-        {!onFood && data && (
-          <FlatList
-            data={data.data.foods}
-            onScrollBeginDrag={() => Keyboard.dismiss()}
-            removeClippedSubviews={false}
-            contentContainerStyle={{ paddingBottom: 130 }}
-            renderItem={({ item }) => (
-              <>
-                <View className="ml-4 border-t-[0.75px] border-t-gray-200"></View>
-                <Pressable
-                  className="p-4 bg-white active:bg-[#D1D0D4]"
-                  onPress={() => setOnFood(true)}
-                >
-                  <Text style={styles.listItemText}>
-                    {capitalizeFirstLetter(item.description)}
-                  </Text>
-                </Pressable>
-                {item == data.data.foods[data.data.foods.length - 1] && (
-                  <View className="ml-4 border-b-[0.75px] border-b-gray-200"></View>
-                )}
-              </>
-            )}
-          />
-        )}
-        <StatusBar style="auto" />
         <BottomSheetModalProvider>
-          <View style={styles.container}>
-            <Text>afks</Text>
+          <View
+            style={[styles.container, onFood && { backgroundColor: "#4C4C4C" }]}
+          >
+            <View className="mt-14 mx-2">
+              <SearchBar
+                placeholder="Search for foods"
+                value={search}
+                onChangeText={updateSearch}
+                platform="ios"
+                returnKeyType="search"
+                showCancel={false}
+                dimmed={onFood}
+                placeholderTextColor={onFood ? "#303031" : undefined}
+                disabled={onFood}
+              />
+            </View>
+
+            {!onFood && data && (
+              <FlatList
+                data={data.data.foods}
+                onScrollBeginDrag={() => Keyboard.dismiss()}
+                removeClippedSubviews={false}
+                contentContainerStyle={{ paddingBottom: 130 }}
+                renderItem={({ item }) => (
+                  <>
+                    <View className="ml-4 border-t-[0.75px] border-t-gray-200"></View>
+                    <Pressable
+                      className="p-4 bg-white active:bg-[#D1D0D4]"
+                      onPress={onClickFood}
+                    >
+                      <Text style={styles.listItemText}>
+                        {capitalizeFirstLetter(item.description)}
+                      </Text>
+                    </Pressable>
+                    {item == data.data.foods[data.data.foods.length - 1] && (
+                      <View className="ml-4 border-b-[0.75px] border-b-gray-200"></View>
+                    )}
+                  </>
+                )}
+              />
+            )}
+            <StatusBar style="auto" />
+          </View>
+          <View>
             <BottomSheetModal
               ref={bottomSheetRef}
               index={1}
               snapPoints={snapPoints}
-              onChange={handleSheetChanges}
+              onDismiss={() => setOnFood(false)}
             >
-              <View style={{ flex: 1, backgroundColor: "gray" }}>
+              <View>
                 <Text>Awesome 🎉</Text>
               </View>
             </BottomSheetModal>
@@ -142,9 +147,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white", // Background color of the whole screen
     alignItems: "center",
-    justifyContent: "center",
   },
   listContainer: {
     paddingBottom: 120,

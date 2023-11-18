@@ -23,6 +23,13 @@ const defaultSearchIcon = (theme: Theme) => ({
   color: theme?.colors?.platform?.ios?.grey,
 });
 
+const dimmedSearchIcon = (theme: Theme) => ({
+  type: "ionicon",
+  size: 20,
+  name: "ios-search",
+  color: "#303031",
+});
+
 const defaultClearIcon = (theme: Theme) => ({
   type: "ionicon",
   name: "ios-close-circle",
@@ -40,6 +47,7 @@ export class SearchBarIOS extends Component<SearchBarIosProps, SearchBarState> {
   input!: TextInput;
   static defaultProps = {
     value: "",
+    dimmed: false,
     cancelButtonTitle: "Cancel",
     loadingProps: {},
     cancelButtonProps: {},
@@ -159,7 +167,7 @@ export class SearchBarIOS extends Component<SearchBarIosProps, SearchBarState> {
         testID="RNE__SearchBar-wrapper"
         style={StyleSheet.flatten([
           styles.container,
-          { backgroundColor: theme?.colors?.background },
+          // { backgroundColor: !this.props.dimmed ? theme?.colors?.background : theme?.colors?.dimmedBackground },
           containerStyle,
         ])}
       >
@@ -180,7 +188,11 @@ export class SearchBarIOS extends Component<SearchBarIosProps, SearchBarState> {
           }}
           inputContainerStyle={StyleSheet.flatten([
             styles.inputContainer,
-            { backgroundColor: theme?.colors?.platform?.ios?.searchBg },
+            {
+              backgroundColor: !this.props.dimmed
+                ? theme?.colors?.platform?.ios?.searchBg
+                : "#474747",
+            },
             hasFocus && {
               marginRight: this.state.cancelButtonWidth
                 ? this.state.cancelButtonWidth
@@ -188,7 +200,7 @@ export class SearchBarIOS extends Component<SearchBarIosProps, SearchBarState> {
             },
             inputContainerStyle,
           ])}
-          leftIcon={renderNode(Icon, searchIcon, defaultSearchIcon(theme))}
+          leftIcon={renderNode(Icon, searchIcon, this.props.dimmed ? dimmedSearchIcon(theme) : defaultSearchIcon(theme))}
           leftIconContainerStyle={StyleSheet.flatten([
             styles.leftIconContainerStyle,
             leftIconContainerStyle,
@@ -275,7 +287,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    marginLeft: 6,
+    marginLeft: 4,
     overflow: "hidden",
   },
   inputContainer: {

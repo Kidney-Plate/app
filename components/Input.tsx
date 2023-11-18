@@ -229,7 +229,7 @@ export class Input extends React.Component<InputProps & { theme?: Theme }> {
             style={StyleSheet.flatten([
               {
                 color: theme?.colors?.black,
-                fontSize: 18,
+                fontSize: 17,
                 flex: 1,
                 minHeight: 40,
               },

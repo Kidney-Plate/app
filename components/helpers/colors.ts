@@ -5,6 +5,7 @@ interface PlatformColors {
   secondary: string;
   grey: string;
   searchBg: string;
+  dimmedSearchBg: string;
   success: string;
   error: string;
   warning: string;
@@ -15,6 +16,7 @@ export interface Colors {
   readonly secondary: string;
   readonly background: string;
   readonly white: string;
+  readonly dimmedBackground: string;
   readonly black: string;
   readonly grey0: string;
   readonly grey1: string;
@@ -42,6 +44,7 @@ export const lightColors: Colors = {
   secondary: '#ad1457',
   background: '#ffffff',
   white: '#ffffff',
+  dimmedBackground: "rgba(0,0,0,0.7)",
   black: '#242424',
   grey0: '#393e42',
   grey1: '#43484d',
@@ -63,6 +66,7 @@ export const lightColors: Colors = {
       secondary: '#5856d6',
       grey: '#7d7d7d',
       searchBg: '#EEEDEF',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#4cd964',
       error: '#ff3b30',
       warning: '#ffcc00',
@@ -72,6 +76,7 @@ export const lightColors: Colors = {
       secondary: '#9C27B0',
       grey: 'rgba(0, 0, 0, 0.54)',
       searchBg: '#dcdce1',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#4caf50',
       error: '#f44336',
       warning: '#ffeb3b',
@@ -81,6 +86,7 @@ export const lightColors: Colors = {
       secondary: '#ca71eb',
       grey: '#393e42',
       searchBg: '#303337',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#52c41a',
       error: '#ff190c',
       warning: '#faad14',
@@ -90,6 +96,7 @@ export const lightColors: Colors = {
       secondary: '#5856d6',
       grey: '#7d7d7d',
       searchBg: '#dcdce1',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#4cd964',
       error: '#ff3b30',
       warning: '#ffcc00',
@@ -102,6 +109,7 @@ export const darkColors: Colors = {
   secondary: '#aa49eb',
   background: '#080808',
   white: '#080808',
+  dimmedBackground: 'rgba(8,8,8,0.7)',
   black: '#f2f2f2',
   grey5: '#393e42',
   grey4: '#43484d',
@@ -123,6 +131,7 @@ export const darkColors: Colors = {
       secondary: '#2089dc',
       grey: '#ffffff',
       searchBg: '#393e42',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#439946',
       error: '#bf2c24',
       warning: '#cfbe27',
@@ -132,6 +141,7 @@ export const darkColors: Colors = {
       secondary: '#2089dc',
       grey: '#393e42',
       searchBg: '#393e42',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#439946',
       error: '#bf2c24',
       warning: '#cfbe27',
@@ -141,6 +151,7 @@ export const darkColors: Colors = {
       secondary: '#2089dc',
       grey: '#ffffff',
       searchBg: '#393e42',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#439946',
       error: '#bf2c24',
       warning: '#cfbe27',
@@ -150,6 +161,7 @@ export const darkColors: Colors = {
       secondary: '#2089dc',
       grey: '#ffffff',
       searchBg: '#393e42',
+      dimmedSearchBg: "rgba(0,0,0,0.72)",
       success: '#439946',
       error: '#bf2c24',
       warning: '#cfbe27',
