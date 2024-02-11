@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mnagelia.kidneyplate"
@@ -31,6 +29,8 @@
       "eas": {
         "projectId": "98a902e7-b825-4077-9c07-f434a592356c"
       }
-    }
+    },
+    "plugins": ["expo-router"],
+    "scheme": "kidneyplate"
   }
 }

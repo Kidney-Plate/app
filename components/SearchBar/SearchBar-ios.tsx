@@ -19,27 +19,27 @@ export type { SearchBarIosProps };
 const defaultSearchIcon = (theme: Theme) => ({
   type: "ionicon",
   size: 20,
-  name: "ios-search",
+  name: "search",
   color: theme?.colors?.platform?.ios?.grey,
 });
 
 const dimmedSearchIcon = (theme: Theme) => ({
   type: "ionicon",
   size: 20,
-  name: "ios-search",
+  name: "search",
   color: "#303031",
 });
 
 const defaultClearIcon = (theme: Theme) => ({
   type: "ionicon",
-  name: "ios-close-circle",
+  name: "close-circle",
   size: 20,
   color: theme?.colors?.platform?.ios?.grey,
 });
 
 const dimmedClearIcon = (theme: Theme) => ({
   type: "ionicon",
-  name: "ios-close-circle",
+  name: "close-circle",
   size: 20,
   color: "#303031",
 });
@@ -64,8 +64,8 @@ export class SearchBarIOS extends Component<SearchBarIosProps, SearchBarState> {
     onFocus: () => null,
     onBlur: () => null,
     onChangeText: () => null,
-    searchIcon: { name: "ios-search" },
-    clearIcon: { name: "ios-close-circle" },
+    searchIcon: { name: "search" },
+    clearIcon: { name: "close-circle" },
     showCancel: false,
   };
 
