@@ -22,7 +22,7 @@ import {
   BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { AntDesign } from "@expo/vector-icons";
+import * as Device from "expo-device";
 
 export default function App() {
   const [data, setData] = useState<any>(null);
@@ -116,7 +116,7 @@ export default function App() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
           <View className="flex-1 items-center">
-            <View className="mt-16 mx-2">
+            <View className="mt-12 mx-2">
               <SearchBar
                 placeholder="Search for foods"
                 value={search}
@@ -170,33 +170,49 @@ export default function App() {
                   </Text>
                 ))}
                 <View className="mt-10 flex flex-row justify-between">
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    maximumDate={new Date()}
-                    mode="date"
-                    is24Hour={true}
-                    onChange={(event, selectedTime) => {
-                      const currentData = selectedTime;
-                      setDate(currentData!);
-                    }}
-                    style={{ marginLeft: -10 }}
-                  />
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    maximumDate={new Date()}
-                    mode="time"
-                    is24Hour={true}
-                    onChange={(event, selectedTime) => {
-                      const currentData = selectedTime;
-                      setDate(currentData!);
-                    }}
-                    style={{ marginLeft: -10 }}
-                  />
+                  {Device.osName == "iOS" || Device.osName == "iPadOS" ? (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={date}
+                      maximumDate={new Date()}
+                      mode="datetime"
+                      display="spinner"
+                      // mode="date"
+                      onChange={(event, selectedTime) => {
+                        const currentData = selectedTime;
+                        setDate(currentData!);
+                      }}
+                    />
+                  ) : (
+                    <>
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        maximumDate={new Date()}
+                        mode="date"
+                        is24Hour={true}
+                        onChange={(event, selectedTime) => {
+                          const currentData = selectedTime;
+                          setDate(currentData!);
+                        }}
+                        style={{ marginLeft: -10 }}
+                      />
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        maximumDate={new Date()}
+                        mode="time"
+                        onChange={(event, selectedTime) => {
+                          const currentData = selectedTime;
+                          setDate(currentData!);
+                        }}
+                        style={{ marginLeft: -10 }}
+                      />
+                    </>
+                  )}
                 </View>
                 <Pressable
-                  className="bg-[#7265E3] p-3 rounded mt-4 active:bg-[#554bab] active:scale-[.97] transition"
+                  className="bg-[#7265E3] p-3 rounded-lg mt-4 active:bg-[#554bab] active:scale-[.97] transition"
                   onPress={() => console.log("Clicked!")}
                 >
                   <Text className="text-white text-lg text-center font-bold">
