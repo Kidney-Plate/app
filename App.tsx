@@ -13,7 +13,7 @@ import "expo-dev-client";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import client from "./lib";
 import "./global.css";
-import { SearchBar } from "./components/SearchBar/SearchBar";
+import { SearchBar } from "./components/Search/SearchBar/SearchBar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   BottomSheetModalProvider,
