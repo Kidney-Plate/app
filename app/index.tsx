@@ -26,50 +26,51 @@ import * as Device from "expo-device";
 import Button from "../components/Button";
 
 export default function Page() {
+  const [email, setEmail] = useState("");
+
   return (
+    <View className="flex-1 justify-center mx-2">
+      <Text className="text-3xl font-black text-center mb-5">
+        Continue with Email
+      </Text>
       <View>
-        <Button text="Log in" link="/home" />
+        <Text
+          className="block text-sm font-medium text-gray-900"
+        >
+          Email
+        </Text>
+        <View className="relative mt-2 rounded-md shadow-sm">
+          <TextInput
+            id="email"
+            className="rounded-md border-solid border-[1px] border-slate-200 py-3 pl-2 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+            placeholder="example@example.com"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            autoCapitalize="none"
+            textContentType="emailAddress"
+            autoComplete="email"
+          />
+        </View>
       </View>
+      <Button text="Log in" link="/home" />
+    </View>
     // <GestureHandlerRootView style={{ flex: 1 }}>
     // </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-  listContainer: {
-    paddingBottom: 120,
-  },
-  listItem: {
-    paddingLeft: 4,
-    paddingRight: 4,
-  },
-  listItemText: {
-    fontSize: 18,
-    color: "black",
-    fontFamily: "System", // iOS system font
-  },
-  searchSection: {
-    flex: 1,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  searchIcon: {
-    padding: 10,
-  },
   input: {
-    flex: 1,
+    backgroundColor: "rgb(226 232 240)",
     paddingTop: 10,
-    paddingRight: 10,
     paddingBottom: 10,
-    paddingLeft: 0,
-    backgroundColor: "#818181",
-    color: "#424242",
+    paddingLeft: 8,
+    paddingRight: 56,
+    borderRadius: 6,
+    color: "black",
+    fontSize: 16,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    shadowColor: "rgba(0, 0, 0, 0.05)",
   },
 });
