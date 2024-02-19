@@ -1,5 +1,6 @@
 import { Link } from "expo-router";
-import { GestureResponderEvent, Pressable, Text } from "react-native";
+import React from "react";
+import { GestureResponderEvent, Pressable, Text, View } from "react-native";
 
 interface Props {
   text: string;
@@ -7,18 +8,19 @@ interface Props {
   link?: string;
 }
 
-const PrimaryButton = (props: Props) => {
+const PrimaryButton = React.forwardRef((props: Props, ref: React.Ref<View>) => {
   return (
     <Pressable
       className="bg-primary p-3 rounded-lg mt-4 active:bg-primaryDarker active:scale-[.97] transition"
       onPress={props.onPress}
+      ref={ref}
     >
       <Text className="text-white text-lg text-center font-bold">
         {props.text}
       </Text>
     </Pressable>
   );
-};
+});
 
 const Button = (props: Props) => {
   if (props.link) {
