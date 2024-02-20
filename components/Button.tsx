@@ -14,6 +14,7 @@ function PrimaryButton(props: Props) {
           {
             backgroundColor: pressed ? "#554bab" : "#7265E3",
             transform: pressed ? [{ scale: 0.97 }] : [{ scale: 1}],
+            opacity: props.disabled ? 0.75 : 1,
           },
           styles.button
         ]}

@@ -51,7 +51,7 @@ export default function Page() {
               autoComplete="email"
             />
           </View>
-          <Button text="Send Code" onPress={() => sendOTP()} />
+          <Button text="Send Code" onPress={() => sendOTP()} disabled={true} />
         </View>
       </TouchableWithoutFeedback>
     </View>
