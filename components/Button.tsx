@@ -1,10 +1,9 @@
 import { Link } from "expo-router";
 import React from "react";
-import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-native";
+import { GestureResponderEvent, Pressable, PressableProps, StyleSheet, Text, View } from "react-native";
 
-interface Props {
+interface Props extends PressableProps {
   text: string;
-  onPress?: ((event: GestureResponderEvent) => void) | null | undefined;
   link?: string;
 }
 
@@ -18,7 +17,7 @@ function PrimaryButton(props: Props) {
           },
           styles.button
         ]}
-        onPress={props.onPress}
+        {...props}
       >
         <Text className="text-white text-lg text-center font-bold">{props.text}</Text>
       </Pressable>
@@ -29,11 +28,11 @@ const Button = (props: Props) => {
   if (props.link) {
     return (
       <Link href={props.link} asChild>
-        <PrimaryButton onPress={props.onPress} text={props.text} />
+        <PrimaryButton {...props} />
       </Link>
     );
   } else {
-    return <PrimaryButton onPress={props.onPress} text={props.text} />;
+    return <PrimaryButton {...props} />;
   }
 };
 

@@ -15,13 +15,16 @@ import { Alert } from "react-native";
 
 export default function Page() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendOTP = async () => {
+    setLoading(true);
     const { error } = await supabase.auth.signInWithOtp({
       email: email,
     });
 
     if (error) Alert.alert(error.message);
+    setLoading(false);
   };
 
   return (
